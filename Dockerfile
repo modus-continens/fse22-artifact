@@ -1,7 +1,7 @@
 # Build like `docker build .`
 # Run with `docker run -v /var/run/docker.sock:/var/run/docker.sock --privileged -it ...` so the 'top-level' Docker is used.
 FROM docker:20.10.17-alpine3.16
-RUN apk add --no-cache cargo gcompat curl ca-certificates nginx
+RUN apk add --no-cache cargo gcompat curl ca-certificates nginx bash
 ENV PATH "/root/.cargo/bin:$PATH"
 RUN cargo install modus --version 0.1.11
 
