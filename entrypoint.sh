@@ -7,7 +7,7 @@ echo 1234 | nginx
 for i in {1..10}
 do
     docker builder prune -a -f && docker image prune -a -f;
-    /usr/bin/time -o modus-time.log -a -p modus build ./openjdk-images-case-study 'openjdk(A, B, C)' -f <(cat ./openjdk-images-case-study/*.Modusfile) \
+    /usr/bin/time -o modus-time.log -a -p modus build . 'openjdk(A, B, C)' -f <(cat ./*.Modusfile) \
         --output-profiling="modus_profile_$i.log";
 done
 cat modus-time.log
