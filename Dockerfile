@@ -21,6 +21,3 @@ RUN curl https://raw.githubusercontent.com/modus-continens/openjdk-images-case-s
 COPY ./entrypoint.sh ./entrypoint.sh
 
 ENTRYPOINT ["./entrypoint.sh"]
-
-# TODO:
-# Copy over other relevant files, e.g. case study
