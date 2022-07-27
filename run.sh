@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -eux
+
 docker build . -t openjdk-builder
 
 docker network create dind-network
