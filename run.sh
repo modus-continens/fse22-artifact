@@ -17,6 +17,7 @@ CONTAINER_ID=$(
         docker:dind --registry-mirror=http://localhost:5000
             )
 
+sleep 1 # give the daemon a sec to start up
 docker exec -it "$CONTAINER_ID" sh -c "docker run -d -p 5000:5000 -e REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io --restart=always --name registry registry:2"
 
 # should prob start then exec our entrypoint
