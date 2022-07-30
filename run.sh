@@ -9,7 +9,7 @@ docker volume create dind-certs-ca || true
 docker volume create dind-certs-client || true
 
 CONTAINER_ID=$(
-    docker run --privileged --name dind-docker -d \
+    docker run --privileged --userns=host --name dind-docker -d \
         --network dind-network --network-alias docker \
         -e DOCKER_TLS_CERTDIR=/certs \
         -v dind-certs-ca:/certs/ca \
