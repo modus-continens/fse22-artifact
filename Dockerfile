@@ -19,5 +19,3 @@ RUN curl https://raw.githubusercontent.com/modus-continens/openjdk-images-case-s
 RUN curl https://raw.githubusercontent.com/modus-continens/openjdk-images-case-study/ec0ca73649e91233b9440b438a03bcff5c13d89c/linux.Modusfile > linux.Modusfile
 
 COPY ./entrypoint.sh ./entrypoint.sh
-
-ENTRYPOINT ["./entrypoint.sh"]
