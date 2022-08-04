@@ -17,7 +17,7 @@ do
         --output-profiling="benchmarks/modus_profile_$i.log";
 
     docker builder prune -a -f && docker image prune -a -f;
-    fd 'Dockerfile$' ./docker-library-openjdk | grep -v windows | /usr/bin/time -o benchmarks/official-parallel.log -a -p parallel --bar docker build ./docker-library-openjdk -f {};
+    fd 'Dockerfile$' ./docker-library-openjdk | grep -v windows | /usr/bin/time -o benchmarks/official-parallel.log -a -p parallel docker build ./docker-library-openjdk -f {};
 done
 
 echo 'Modus'
