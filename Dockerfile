@@ -2,7 +2,7 @@
 # Run with `docker run -v /var/run/docker.sock:/var/run/docker.sock --privileged -it ...` so the 'top-level' Docker is used.
 FROM docker:20.10.17-alpine3.16
 RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && apk update
-RUN apk add --no-cache cargo gcompat curl ca-certificates nginx bash datamash@testing
+RUN apk add --no-cache cargo gcompat curl ca-certificates nginx bash datamash@testing parallel fd git
 ENV PATH "/root/.cargo/bin:$PATH"
 RUN cargo install modus --version 0.1.11
 
@@ -19,4 +19,8 @@ WORKDIR /openjdk-images-case-study/
 RUN curl https://raw.githubusercontent.com/modus-continens/openjdk-images-case-study/ec0ca73649e91233b9440b438a03bcff5c13d89c/facts.Modusfile > facts.Modusfile
 RUN curl https://raw.githubusercontent.com/modus-continens/openjdk-images-case-study/ec0ca73649e91233b9440b438a03bcff5c13d89c/linux.Modusfile > linux.Modusfile
 
+WORKDIR /docker-library-openjdk
+RUN git clone https://github.com/docker-library/openjdk.git && cd openjdk && git checkout b5df7f69163346b6813883cd68bd2f43f82fd784
+
+WORKDIR /
 COPY ./entrypoint.sh ./entrypoint.sh
