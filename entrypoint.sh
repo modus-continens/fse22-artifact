@@ -10,14 +10,21 @@ fd 'Dockerfile$' ./docker-library-openjdk | xargs -I % sed -i "/sha256sum/d" %
 echo 1234 | nginx || true
 mkdir -p benchmarks
 
+echo "Choose which benchmarks to run. (One or more.)"
+BENCHMARK_CHOICE=$(gum choose 'Modus' 'DOBS Parallel' --no-limit)
+
 for ((i = 1; i <= $1; i++))
 do
-    docker builder prune -a -f && docker image prune -a -f;
-    /usr/bin/time -o benchmarks/modus-time.log -a -p modus build ./openjdk-images-case-study 'openjdk(A, B, C)' -f <(cat ./openjdk-images-case-study/*.Modusfile) \
-        --output-profiling="benchmarks/modus_profile_$i.log";
+    if [[ "$BENCHMARK_CHOICE" == *'Modus'* ]]; then
+        docker builder prune -a -f && docker image prune -a -f;
+        /usr/bin/time -o benchmarks/modus-time.log -a -p modus build ./openjdk-images-case-study 'openjdk(A, B, C)' -f <(cat ./openjdk-images-case-study/*.Modusfile) \
+            --output-profiling="benchmarks/modus_profile_$i.log";
+    fi
 
-    docker builder prune -a -f && docker image prune -a -f;
-    fd 'Dockerfile$' ./docker-library-openjdk | grep -v windows | /usr/bin/time -o benchmarks/official-parallel.log -a -p parallel docker build ./docker-library-openjdk -f {};
+    if [[ "$BENCHMARK_CHOICE" == *'DOBS Parallel'* ]]; then
+        docker builder prune -a -f && docker image prune -a -f;
+        fd 'Dockerfile$' ./docker-library-openjdk | grep -v windows | /usr/bin/time -o benchmarks/official-parallel.log -a -p parallel docker build ./docker-library-openjdk -f {};
+    fi
 done
 
 echo 'Modus'

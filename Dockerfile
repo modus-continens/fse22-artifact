@@ -6,6 +6,10 @@ RUN apk add --no-cache cargo gcompat curl ca-certificates nginx bash datamash@te
 ENV PATH "/root/.cargo/bin:$PATH"
 RUN cargo install modus --version 0.1.11
 
+# Install gum for better entrypoint script
+RUN wget 'https://github.com/charmbracelet/gum/releases/download/v0.4.0/gum_0.4.0_linux_x86_64.tar.gz'
+RUN tar xf 'gum_0.4.0_linux_x86_64.tar.gz' gum --directory=/usr/bin
+
 # Trust our self-signed certificate so curl and others won't complain.
 COPY cert.pem /usr/local/share/ca-certificates/cert.crt
 COPY cert.pem /etc/nginx/cert.pem
@@ -13,7 +17,6 @@ COPY key.pem /etc/nginx/key.pem
 RUN cat /usr/local/share/ca-certificates/cert.crt >> /etc/ssl/certs/ca-certificates.crt
 
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY ./data /data
 
 WORKDIR /openjdk-images-case-study/
 RUN curl https://raw.githubusercontent.com/modus-continens/openjdk-images-case-study/ec0ca73649e91233b9440b438a03bcff5c13d89c/facts.Modusfile > facts.Modusfile

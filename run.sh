@@ -24,4 +24,5 @@ docker exec -it "$CONTAINER_ID" sh -c "docker run -d -p 5000:5000 -e REGISTRY_PR
 docker run -it --rm --network dind-network \
     -e DOCKER_TLS_CERTDIR=/certs \
     -v dind-certs-client:/certs/client:ro \
+    -v "$(pwd)/data":/data \
     openjdk-builder sh -c "./entrypoint.sh 10"
