@@ -3,7 +3,7 @@
 FROM docker:20.10.17-alpine3.16
 RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && apk update
 RUN apk add --no-cache cargo gcompat curl ca-certificates nginx bash datamash@testing parallel fd git python3 dpkg jq sed gawk
-RUN python3 -m ensurepip && pip install regex scipy
+RUN python3 -m ensurepip && pip3 install regex scipy
 ENV PATH "/root/.cargo/bin:$PATH"
 RUN cargo install modus --version 0.1.11
 
