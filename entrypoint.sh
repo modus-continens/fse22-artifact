@@ -22,6 +22,16 @@ then
     NUM_RUNS=10
 fi
 
+if [[ "$BENCHMARK_CHOICE" == *'Modus'* ]]; then
+    touch benchmarks/modus-time.log
+fi
+if [[ "$BENCHMARK_CHOICE" == *'DOBS Sequential'* ]]; then
+    touch benchmarks/official.log
+fi
+if [[ "$BENCHMARK_CHOICE" == *'DOBS Parallel'* ]]; then
+    touch benchmarks/official-parallel.log
+fi
+
 for ((i = 1; i <= "$NUM_RUNS"; i++))
 do
     if [[ "$BENCHMARK_CHOICE" == *'Modus'* ]]; then
