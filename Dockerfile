@@ -2,8 +2,7 @@
 # Run with `docker run -v /var/run/docker.sock:/var/run/docker.sock --privileged -it ...` so the 'top-level' Docker is used.
 FROM docker:20.10.17-alpine3.16
 RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && apk update
-RUN apk add --no-cache cargo gcompat curl ca-certificates nginx bash datamash@testing parallel fd git python3 dpkg jq sed gawk
-RUN python3 -m ensurepip && pip3 install regex scipy
+RUN apk add --no-cache cargo gcompat curl ca-certificates nginx bash datamash@testing parallel fd git python3 py3-regex py3-scipy dpkg jq sed gawk
 ENV PATH "/root/.cargo/bin:$PATH"
 RUN cargo install modus --version 0.1.11
 
