@@ -9,11 +9,21 @@ fd 'Dockerfile$' ./docker-library-openjdk | xargs -I % sed -i "s/https:\/\/downl
 fd 'Dockerfile$' ./docker-library-openjdk | xargs -I % sed -i "/sha256sum/d" %
 echo 1234 | nginx || true
 mkdir -p benchmarks
+export DOCKER_BUILDKIT=1
+parallel --citation
 
 echo "Choose which benchmarks to run. (One or more.)"
-BENCHMARK_CHOICE=$(gum choose 'Modus' 'DOBS Parallel' --no-limit)
+BENCHMARK_CHOICE=$(gum choose 'Modus (approx 143.1s)' 'DOBS Parallel (approx 119.8s)' --no-limit)
 
-for ((i = 1; i <= $1; i++))
+echo "How many runs of each? Enter a positive integer."
+NUM_RUNS=$(gum input --placeholder=10 --prompt="n = ")
+
+if [ "$NUM_RUNS" == "" ]
+then
+    NUM_RUNS=10
+fi
+
+for ((i = 1; i <= "$NUM_RUNS"; i++))
 do
     if [[ "$BENCHMARK_CHOICE" == *'Modus'* ]]; then
         docker builder prune -a -f && docker image prune -a -f;

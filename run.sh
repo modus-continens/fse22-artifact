@@ -25,4 +25,4 @@ docker run -it --rm --network dind-network \
     -e DOCKER_TLS_CERTDIR=/certs \
     -v dind-certs-client:/certs/client:ro \
     -v "$(pwd)/data":/data \
-    openjdk-builder sh -c "./entrypoint.sh 10"
+    openjdk-builder sh -c "./entrypoint.sh"
