@@ -8,7 +8,7 @@ RUN cargo install modus --version 0.1.11
 
 # Install gum for better entrypoint script
 RUN wget 'https://github.com/charmbracelet/gum/releases/download/v0.4.0/gum_0.4.0_linux_x86_64.tar.gz'
-RUN tar xf 'gum_0.4.0_linux_x86_64.tar.gz' gum --directory=/usr/bin
+RUN tar xf 'gum_0.4.0_linux_x86_64.tar.gz' gum && mv gum /usr/bin/gum && rm 'gum_0.4.0_linux_x86_64.tar.gz'
 
 # Trust our self-signed certificate so curl and others won't complain.
 COPY cert.pem /usr/local/share/ca-certificates/cert.crt
