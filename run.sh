@@ -8,6 +8,8 @@ docker network create dind-network || true
 docker volume create dind-certs-ca || true
 docker volume create dind-certs-client || true
 
+docker stop dind-docker && docker rm dind-docker
+
 CONTAINER_ID=$(
     docker run --privileged --userns=host --name dind-docker -d \
         --network dind-network --network-alias docker \
