@@ -20,6 +20,17 @@ Therefore, we:
 
 Note that this would reduce the build time, because serving locally reduces the delay from fetching over the network.
 
+# Acquiring the Artifact
+
+You may acquire the artifact from GitHub. 
+
+Simply `git clone https://github.com/modus-continens/fse22-artifact.git && cd fse22-artifact`, ready to run.
+
 # Reproducing the Main Results
 
-TODO
+Note: the Docker commands executed by the following script will have side effects, including deleting any unused `volumes`, creating new `volume`s, removing any containers named `dind-docker`. 
+This is likely safe to do on your host machine (you do not *need* a VM), unless you happen to be using Docker volumes, networks, or containers that match the names used in our script and do not want these changes.
+Skim through the script `run.sh` to verify this.
+
+Assuming the [requirements](./REQUIREMENTS) are met and you're in the artifact repo's main directory, run the script with `./run.sh`.
+This will set up Docker in Docker and execute an interactive script.

@@ -1,2 +1,3 @@
+- Internet Connection
 - Docker Engine
-  - In addition, we recommend setting up sudoless docker. https://docs.docker.com/engine/install/linux-postinstall/
+  - In addition, we assume sudoless docker is set up. https://docs.docker.com/engine/install/linux-postinstall/

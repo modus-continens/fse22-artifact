@@ -27,9 +27,13 @@ CONTAINER_ID=$(
 sleep 2 # give the daemon a sec to start up
 docker exec -it "$CONTAINER_ID" sh -c "docker run -d -p 5000:5000 -e REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io --restart=always --name registry registry:2"
 
+# Use a bind mount for the benchmarks to persist data after container exits
+mkdir -p ./benchmarks
+
 # This form should run the entrypoint without overwriting the base entrypoint.
 docker run -it --rm --network dind-network \
     -e DOCKER_TLS_CERTDIR=/certs \
     -v dind-certs-client:/certs/client:ro \
     -v "$(pwd)/data":/data \
+    -v "$(pwd)/benchmarks":/benchmarks \
     openjdk-builder sh -c "./entrypoint.sh"

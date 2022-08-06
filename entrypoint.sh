@@ -8,7 +8,6 @@ fd 'Dockerfile$' ./docker-library-openjdk | xargs -I % sed -i "s/https:\/\/downl
 # Remove the sha256sum check, since we're not using the original binaries.
 fd 'Dockerfile$' ./docker-library-openjdk | xargs -I % sed -i "/sha256sum/d" %
 echo 1234 | nginx || true
-mkdir -p benchmarks
 export DOCKER_BUILDKIT=1
 
 echo "Build images or print code size?"
