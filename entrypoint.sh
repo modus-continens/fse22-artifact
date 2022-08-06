@@ -79,5 +79,6 @@ if [[ "$BENCHMARK_CHOICE" == *'DOBS Parallel'* ]]; then
     grep real benchmarks/official-parallel.log | datamash mean 2 -W
 fi
 if [[ "$BENCHMARK_CHOICE" == *'Docker Hub Evaluation'* ]]; then
-    cd docker-hub-eval && ./parse_runlog.py
+    cd docker-hub-eval && ./parse_runlog.py > ../benchmarks/docker-hub-eval-runlog.txt && cd ..
+    cat benchmarks/docker-hub-eval-runlog.txt
 fi
