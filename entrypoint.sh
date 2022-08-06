@@ -21,6 +21,7 @@ echo "Choose which benchmarks to run. (One or more.)"
 BENCHMARK_CHOICE=$(gum choose 'Modus (approx 143.1s)' \
     'DOBS Sequential (approx 516.3s)' \
     'DOBS Parallel (approx 119.8s)' \
+    'Docker Hub Evaluation (approx 826s)' \
     --no-limit)
 
 echo "How many runs of each? Enter a positive integer."
@@ -61,6 +62,10 @@ do
     fi
 done
 
+if [[ "$BENCHMARK_CHOICE" == *'Docker Hub Evaluation'* ]]; then
+    cd docker-hub-eval && ./run-all-and-log.sh "$NUM_RUNS" && cd ..
+fi
+
 if [[ "$BENCHMARK_CHOICE" == *'Modus'* ]]; then
     echo 'Modus'
     grep real benchmarks/modus-time.log | datamash mean 2 -W
@@ -72,4 +77,7 @@ fi
 if [[ "$BENCHMARK_CHOICE" == *'DOBS Parallel'* ]]; then
     echo 'Official (Parallel)'
     grep real benchmarks/official-parallel.log | datamash mean 2 -W
+fi
+if [[ "$BENCHMARK_CHOICE" == *'Docker Hub Evaluation'* ]]; then
+    cd docker-hub-eval && ./parse_runlog.py
 fi
