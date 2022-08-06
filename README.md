@@ -28,9 +28,13 @@ Simply `git clone https://github.com/modus-continens/fse22-artifact.git && cd fs
 
 # Reproducing the Main Results
 
-Note: the Docker commands executed by the following script will have side effects, including deleting any unused `volumes`, creating new `volume`s, removing any containers named `dind-docker`. 
-This is likely safe to do on your host machine (you do not *need* a VM), unless you happen to be using Docker volumes, networks, or containers that match the names used in our script and do not want these changes.
-Skim through the script `run.sh` to verify this.
+The following command will have side effects, read [this](#side-effects) first.
 
 Assuming the [requirements](./REQUIREMENTS) are met and you're in the artifact repo's main directory, run the script with `./run.sh`.
 This will set up Docker in Docker and execute an interactive script.
+
+## Side Effects
+
+The Docker commands executed by the script will have side effects, including deleting any unused `volumes`, creating new `volume`s, removing any containers named `dind-docker`. 
+This is likely safe to do on your host machine (you do not *need* a VM), unless you happen to be using Docker volumes, networks, or containers that match the names used in our script and do not want these changes.
+Skim through the script `run.sh` to verify this.
