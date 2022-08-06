@@ -28,7 +28,7 @@ sleep 2 # give the daemon a sec to start up
 docker exec -it "$CONTAINER_ID" sh -c "docker run -d -p 5000:5000 -e REGISTRY_PROXY_REMOTEURL=https://registry-1.docker.io --restart=always --name registry registry:2"
 
 # Use a bind mount for the benchmarks to persist data after container exits
-mkdir -p ./benchmarks
+mkdir -p ./benchmarks && chmod a+w ./benchmarks
 
 # This form should run the entrypoint without overwriting the base entrypoint.
 docker run -it --rm --network dind-network \
