@@ -12,7 +12,10 @@ mkdir -p benchmarks
 export DOCKER_BUILDKIT=1
 
 echo "Choose which benchmarks to run. (One or more.)"
-BENCHMARK_CHOICE=$(gum choose 'Modus (approx 143.1s)' 'DOBS Sequential (approx 516.3s)' 'DOBS Parallel (approx 119.8s)' --no-limit)
+BENCHMARK_CHOICE=$(gum choose 'Modus (approx 143.1s)' \
+    'DOBS Sequential (approx 516.3s)' \
+    'DOBS Parallel (approx 119.8s)' \
+    --no-limit)
 
 echo "How many runs of each? Enter a positive integer."
 NUM_RUNS=$(gum input --placeholder=10 --prompt="n = ")
