@@ -11,6 +11,13 @@ echo 1234 | nginx || true
 mkdir -p benchmarks
 export DOCKER_BUILDKIT=1
 
+echo "Build images or print code size?"
+MAIN_CHOICE=$(gum choose 'Build images (approx >1m)' 'Print code size (approx <1s)')
+if [[ "$MAIN_CHOICE" == *'Print code size'* ]]; then
+    ./code_size.sh openjdk-images-case-study/linux.Modusfile
+    exit
+fi
+
 echo "Choose which benchmarks to run. (One or more.)"
 BENCHMARK_CHOICE=$(gum choose 'Modus (approx 143.1s)' \
     'DOBS Sequential (approx 516.3s)' \
