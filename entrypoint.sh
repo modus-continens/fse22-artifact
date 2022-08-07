@@ -67,18 +67,19 @@ if [[ "$BENCHMARK_CHOICE" == *'Docker Hub Evaluation'* ]]; then
 fi
 
 if [[ "$BENCHMARK_CHOICE" == *'Modus'* ]]; then
-    echo 'Modus'
+    echo 'Modus:'
     grep real benchmarks/modus-time.log | datamash mean 2 -W
 fi
 if [[ "$BENCHMARK_CHOICE" == *'DOBS Sequential'* ]]; then
-    echo 'Official (Sequential)'
+    echo 'DOBS (Sequential):'
     grep real benchmarks/official.log | datamash mean 2 -W
 fi
 if [[ "$BENCHMARK_CHOICE" == *'DOBS Parallel'* ]]; then
-    echo 'Official (Parallel)'
+    echo 'DOBS (Parallel):'
     grep real benchmarks/official-parallel.log | datamash mean 2 -W
 fi
 if [[ "$BENCHMARK_CHOICE" == *'Docker Hub Evaluation'* ]]; then
+    echo 'Docker Hub Evaluation:'
     cd docker-hub-eval && ./parse_runlog.py > ../benchmarks/docker-hub-eval-runlog.txt && cd ..
     cat benchmarks/docker-hub-eval-runlog.txt
 fi
