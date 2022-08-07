@@ -30,8 +30,15 @@ Simply `git clone https://github.com/modus-continens/fse22-artifact.git && cd fs
 
 The following command will have side effects, read [this](#side-effects) first.
 
-Assuming the [requirements](./REQUIREMENTS) are met and you're in the artifact repo's main directory, run the script with `./run.sh`.
+1. Assuming the [requirements](./REQUIREMENTS) are met and you're in the artifact repo's main directory, run the script with `./run.sh`.
 This will set up Docker in Docker and execute an interactive script.
+2. Select "Build images".
+3. Select all of the options.
+4. Enter the number of times you wish to repeat the run.
+`n = 1` would take roughly 1605s.
+`n = 10` would be a reasonable number, assuming you have a couple hours of compute time to spare.
+
+The raw data is stored in a `benchmarks/` directory, accessible after the container exits.
 
 ## Side Effects
 

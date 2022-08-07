@@ -11,7 +11,7 @@ echo 1234 | nginx || true
 export DOCKER_BUILDKIT=1
 
 echo "Build images or print code size?"
-MAIN_CHOICE=$(gum choose 'Build images (approx >1m)' 'Print code size (approx <1s)')
+MAIN_CHOICE=$(gum choose 'Build images' 'Print OpenJDK case study code size')
 if [[ "$MAIN_CHOICE" == *'Print code size'* ]]; then
     ./code_size.sh openjdk-images-case-study/linux.Modusfile
     exit
