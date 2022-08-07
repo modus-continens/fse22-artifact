@@ -12,12 +12,13 @@ export DOCKER_BUILDKIT=1
 
 echo "Choose:"
 MAIN_CHOICE=$(gum choose 'Build images' 'Print OpenJDK case study code size' 'Benchmark DOBS template processing')
-if [[ "$MAIN_CHOICE" == *'Print code size'* ]]; then
+if [[ "$MAIN_CHOICE" == *'Print OpenJDK case study code size'* ]]; then
     ./code_size.sh openjdk-images-case-study/linux.Modusfile
     exit
 fi
 
 if [[ "$MAIN_CHOICE" == *'Benchmark DOBS template processing'* ]]; then
+    echo 'Running DOBS template processing 10 times:'
     cd docker-library-openjdk
     touch ../benchmarks/dobs-template-time.log
     for ((i = 1; i <= 10; i++))
