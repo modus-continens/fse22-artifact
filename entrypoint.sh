@@ -1,5 +1,73 @@
 #!/bin/bash
 
+function openjdkBuildImages() {
+    echo "How many runs of the build? One run is about 780s."
+    NUM_RUNS=$(gum input --placeholder=10 --prompt="n = ")
+    if [ "$NUM_RUNS" == "" ]
+    then
+        NUM_RUNS=10
+    fi
+
+    echo "First, computing mean template processing time:"
+    cd docker-library-openjdk
+    truncate -s 0 ../benchmarks/dobs-template-time.log
+    for ((i = 1; i <= 10; i++))
+    do
+        /usr/bin/time -o ../benchmarks/dobs-template-time.log -a -p ./apply-templates.sh
+    done
+    MEAN_TEMPLATE=$(grep real ../benchmarks/dobs-template-time.log | datamash mean 2 -W)
+    cd ..
+
+    truncate -s 0 benchmarks/modus-time.log
+    truncate -s 0 benchmarks/official.log
+    truncate -s 0 benchmarks/official-parallel.log
+    for ((i = 1; i <= "$NUM_RUNS"; i++))
+    do
+        docker builder prune -a -f && docker image prune -a -f;
+        /usr/bin/time -o benchmarks/modus-time.log -a -p modus build ./openjdk-images-case-study 'openjdk(A, B, C)' -f <(cat ./openjdk-images-case-study/*.Modusfile) \
+            --output-profiling="benchmarks/modus_profile_$i.log";
+
+        docker builder prune -a -f && docker image prune -a -f;
+        fd 'Dockerfile$' ./docker-library-openjdk | grep -v windows | /usr/bin/time -o benchmarks/official.log -a -p xargs -I % sh -c 'docker build ./docker-library-openjdk -f %';
+
+
+        docker builder prune -a -f && docker image prune -a -f;
+        fd 'Dockerfile$' ./docker-library-openjdk | grep -v windows | /usr/bin/time -o benchmarks/official-parallel.log -a -p parallel --will-cite docker build ./docker-library-openjdk -f {};
+    done
+
+    truncate -s 0 benchmarks/buildTime.csv
+    DOBS_SEQUENTIAL_MEAN=$(grep real benchmarks/official.log | datamash mean 2 -W)
+    DOBS_PARALLEL_MEAN=$(grep real benchmarks/official-parallel.log | datamash mean 2 -W)
+    MODUS_MEAN=$(grep real benchmarks/modus-time.log | datamash mean 2 -W)
+    {
+        echo "Approach,Mean (s),Mean including Templating (s)";
+        echo "DOBS Sequential,$DOBS_SEQUENTIAL_MEAN,$((DOBS_SEQUENTIAL_MEAN + MEAN_TEMPLATE))";
+        echo "DOBS Parallel,$DOBS_PARALLEL_MEAN,$((DOBS_PARALLEL_MEAN + MEAN_TEMPLATE))";
+        echo "Modus,$MODUS_MEAN,$((MODUS_MEAN + MEAN_TEMPLATE))";
+    } > benchmarks/buildTime.csv
+    cat benchmarks/buildTime.csv
+}
+
+function openjdkCodeSize() {
+    ./code_size.sh openjdk-images-case-study/linux.Modusfile
+}
+
+function dockerHubEval() {
+    echo "How many runs of the experiment? One run is about 832s."
+    NUM_RUNS=$(gum input --placeholder=10 --prompt="n = ")
+    if [ "$NUM_RUNS" == "" ]
+    then
+        NUM_RUNS=10
+    fi
+
+    if [[ "$BENCHMARK_CHOICE" == *'Docker Hub Evaluation'* ]]; then
+        cd docker-hub-eval && ./run-all-and-log.sh "$NUM_RUNS" && cd ..
+    fi
+    echo 'Docker Hub Evaluation:'
+    cd docker-hub-eval && ./parse_runlog.py > ../benchmarks/docker-hub-eval-runlog.txt && cd ..
+    cat benchmarks/docker-hub-eval-runlog.txt
+}
+
 set -eu
 
 LOCAL_IP_ADDR=$(ip addr | grep inet | awk 'NR==2{ print $2; }' | head -c -4)
@@ -11,87 +79,19 @@ echo 1234 | nginx || true
 export DOCKER_BUILDKIT=1
 
 echo "Choose:"
-MAIN_CHOICE=$(gum choose 'Build images' 'Print OpenJDK case study code size' 'Benchmark DOBS template processing')
-if [[ "$MAIN_CHOICE" == *'Print OpenJDK case study code size'* ]]; then
-    ./code_size.sh openjdk-images-case-study/linux.Modusfile
+MAIN_CHOICE=$(gum choose 'OpenJDK - Build Images' 'OpenJDK - Code Size' 'Docker Hub Evaluation')
+
+if [[ "$MAIN_CHOICE" == *'OpenJDK - Build Images'* ]]; then
+    openjdkBuildImages
     exit
 fi
 
-if [[ "$MAIN_CHOICE" == *'Benchmark DOBS template processing'* ]]; then
-    echo 'Running DOBS template processing 10 times:'
-    cd docker-library-openjdk
-    touch ../benchmarks/dobs-template-time.log
-    for ((i = 1; i <= 10; i++))
-    do
-        /usr/bin/time -o ../benchmarks/dobs-template-time.log -a -p ./apply-templates.sh
-    done
-    grep real ../benchmarks/dobs-template-time.log | datamash mean 2 -W
+if [[ "$MAIN_CHOICE" == *'OpenJDK - Code Size'* ]]; then
+    openjdkCodeSize
     exit
 fi
 
-echo "Choose which benchmarks to run. (One or more.)"
-BENCHMARK_CHOICE=$(gum choose 'Modus (approx 143.1s)' \
-    'DOBS Sequential (approx 516.3s)' \
-    'DOBS Parallel (approx 119.8s)' \
-    'Docker Hub Evaluation (approx 826s)' \
-    --no-limit)
-
-echo "How many runs of each? Enter a positive integer."
-NUM_RUNS=$(gum input --placeholder=10 --prompt="n = ")
-
-if [ "$NUM_RUNS" == "" ]
-then
-    NUM_RUNS=10
-fi
-
-if [[ "$BENCHMARK_CHOICE" == *'Modus'* ]]; then
-    touch benchmarks/modus-time.log
-fi
-if [[ "$BENCHMARK_CHOICE" == *'DOBS Sequential'* ]]; then
-    touch benchmarks/official.log
-fi
-if [[ "$BENCHMARK_CHOICE" == *'DOBS Parallel'* ]]; then
-    touch benchmarks/official-parallel.log
-fi
-
-for ((i = 1; i <= "$NUM_RUNS"; i++))
-do
-    if [[ "$BENCHMARK_CHOICE" == *'Modus'* ]]; then
-        docker builder prune -a -f && docker image prune -a -f;
-        /usr/bin/time -o benchmarks/modus-time.log -a -p modus build ./openjdk-images-case-study 'openjdk(A, B, C)' -f <(cat ./openjdk-images-case-study/*.Modusfile) \
-            --output-profiling="benchmarks/modus_profile_$i.log";
-    fi
-
-    if [[ "$BENCHMARK_CHOICE" == *'DOBS Sequential'* ]]; then
-        docker builder prune -a -f && docker image prune -a -f;
-        fd 'Dockerfile$' ./docker-library-openjdk | grep -v windows | /usr/bin/time -o benchmarks/official.log -a -p xargs -I % sh -c 'docker build ./docker-library-openjdk -f %';
-    fi
-
-
-    if [[ "$BENCHMARK_CHOICE" == *'DOBS Parallel'* ]]; then
-        docker builder prune -a -f && docker image prune -a -f;
-        fd 'Dockerfile$' ./docker-library-openjdk | grep -v windows | /usr/bin/time -o benchmarks/official-parallel.log -a -p parallel --will-cite docker build ./docker-library-openjdk -f {};
-    fi
-done
-
-if [[ "$BENCHMARK_CHOICE" == *'Docker Hub Evaluation'* ]]; then
-    cd docker-hub-eval && ./run-all-and-log.sh "$NUM_RUNS" && cd ..
-fi
-
-if [[ "$BENCHMARK_CHOICE" == *'Modus'* ]]; then
-    echo 'Modus:'
-    grep real benchmarks/modus-time.log | datamash mean 2 -W
-fi
-if [[ "$BENCHMARK_CHOICE" == *'DOBS Sequential'* ]]; then
-    echo 'DOBS (Sequential):'
-    grep real benchmarks/official.log | datamash mean 2 -W
-fi
-if [[ "$BENCHMARK_CHOICE" == *'DOBS Parallel'* ]]; then
-    echo 'DOBS (Parallel):'
-    grep real benchmarks/official-parallel.log | datamash mean 2 -W
-fi
-if [[ "$BENCHMARK_CHOICE" == *'Docker Hub Evaluation'* ]]; then
-    echo 'Docker Hub Evaluation:'
-    cd docker-hub-eval && ./parse_runlog.py > ../benchmarks/docker-hub-eval-runlog.txt && cd ..
-    cat benchmarks/docker-hub-eval-runlog.txt
+if [[ "$MAIN_CHOICE" == *'Docker Hub Evaluation'* ]]; then
+    dockerHubEval
+    exit
 fi
