@@ -10,10 +10,21 @@ fd 'Dockerfile$' ./docker-library-openjdk | xargs -I % sed -i "/sha256sum/d" %
 echo 1234 | nginx || true
 export DOCKER_BUILDKIT=1
 
-echo "Build images or print code size?"
-MAIN_CHOICE=$(gum choose 'Build images' 'Print OpenJDK case study code size')
+echo "Choose:"
+MAIN_CHOICE=$(gum choose 'Build images' 'Print OpenJDK case study code size' 'Benchmark DOBS template processing')
 if [[ "$MAIN_CHOICE" == *'Print code size'* ]]; then
     ./code_size.sh openjdk-images-case-study/linux.Modusfile
+    exit
+fi
+
+if [[ "$MAIN_CHOICE" == *'Benchmark DOBS template processing'* ]]; then
+    cd docker-library-openjdk
+    touch ../benchmarks/dobs-template-time.log
+    for ((i = 1; i <= 10; i++))
+    do
+        /usr/bin/time -o ../benchmarks/dobs-template-time.log -a -p ./apply-templates.sh
+    done
+    grep real ../benchmarks/dobs-template-time.log | datamash mean 2 -W
     exit
 fi
 

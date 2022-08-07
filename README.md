@@ -45,3 +45,7 @@ The raw data is stored in a `benchmarks/` directory, accessible after the contai
 The Docker commands executed by the script will have side effects, including deleting any unused `volumes`, creating new `volume`s, removing any containers named `dind-docker`. 
 This is likely safe to do on your host machine (you do not *need* a VM), unless you happen to be using Docker volumes, networks, or containers that match the names used in our script and do not want these changes.
 Skim through the script `run.sh` to verify this.
+
+# Validating Results
+
+TODO
