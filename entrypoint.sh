@@ -43,7 +43,7 @@ function openjdkBuildImages() {
         echo "Approach,Mean (s),Mean including Templating (s)";
         echo "DOBS Sequential,$DOBS_SEQUENTIAL_MEAN,$(echo "$DOBS_SEQUENTIAL_MEAN" + "$MEAN_TEMPLATE" | bc)";
         echo "DOBS Parallel,$DOBS_PARALLEL_MEAN,$(echo "$DOBS_PARALLEL_MEAN" + "$MEAN_TEMPLATE" | bc)";
-        echo "Modus,$MODUS_MEAN,$(echo "$MODUS_MEAN" + "$MEAN_TEMPLATE" | bc)";
+        echo "Modus,$MODUS_MEAN,$MODUS_MEAN"; # Modus doesn't use templating
     } > benchmarks/buildTime.csv
     cat benchmarks/buildTime.csv
 }
