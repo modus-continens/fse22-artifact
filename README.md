@@ -1,10 +1,7 @@
 TODO for submission:
 - PDF abstract
-- README describing what the artifact does, where obtainable, and how to repeat paper results.
-- REQUIREMENTS file, what hardware/software needed.
-- STATUS file saying what badges applying for.
+- STATUS file saying what badges applying for, and explaining why deserved.
 - LICENSE file
-- INSTALL file, with installation instructions
 - Copy of accepted paper
 
 # Modus Artifact - Overview
