@@ -46,4 +46,12 @@ Skim through the script `run.sh` to verify this.
 
 # Validating Results
 
-TODO
+Our artifact script produces data relevant to different sections of our paper.
+- The `OpenJDK - Build Images` choice will generate CSV data similar to Table 5 of our paper.
+The computed build times would be consistently shorter than in the paper, because half of the binaries are served locally, as described above.
+On a similar machine to that mentioned in the paper (AWS' c5.2xlarge), you should be able to validate the claim that Modus is faster overall, that is, including the template processing time.
+- The `OpenJDK - Code Size` choice will generate data similar to Table 4 of our paper.
+Refer to Table 4 to understand the output format, it matches that of the `wc` command.
+We use a slightly different version of the code repositories in this artifact, so the code size data differs.
+You should still be able to validate the claim that Modus uses far fewer words than DOBS.
+- The `Docker Hub Evaluation` choice will generate data similar to Table 3 of our paper.
