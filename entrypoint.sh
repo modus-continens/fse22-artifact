@@ -49,13 +49,14 @@ function openjdkBuildImages() {
 }
 
 function openjdkCodeSize() {
+    echo "Printing code size..."
     ./code_size.sh docker-library-openjdk/Dockerfile-linux.template > benchmarks/DOBS-template-size
     ./code_size.sh docker-library-openjdk/apply-templates.sh > benchmarks/apply-templates-size
     ./code_size.sh docker-library-openjdk/jq-template.awk > benchmarks/jq-awk-size
     truncate -s 0 benchmarks/DOBS-code-size
     for line in "1p" "2p" "3p"
     do
-        cat <(sed -n "$line" benchmarks/DOBS-template-size) <(sed -n "$line" benchmarks/apply-templates-size) <(sed -n "$line" benchmarks/jq-awk-size) | datamash sum 1,2,3 -W >> benchmarks/DOBS-code-size
+        cat <(sed -n "$line" benchmarks/DOBS-template-size) <(sed -n "$line" benchmarks/apply-templates-size) <(sed -n "$line" benchmarks/jq-awk-size) | printf '      %s\n' "$(datamash sum 1,2,3 -W)" >> benchmarks/DOBS-code-size
     done
 
     ./code_size.sh openjdk-images-case-study/linux.Modusfile > benchmarks/modus-code-size
