@@ -30,6 +30,16 @@ docker exec -it "$CONTAINER_ID" sh -c "docker run -d -p 5000:5000 -e REGISTRY_PR
 # Use a bind mount for the benchmarks to persist data after container exits
 mkdir -p ./benchmarks && chmod a+w ./benchmarks
 
+mkdir -p data
+# if fewer than needed binaries, then fetch them
+if [ "$(ls data -1 | wc -l)" -lt "$(wc -l binary_filenames.txt)" ]
+then
+    while read -r filename; do
+        echo "$filename"
+        wget "https://modus-continens.s3.eu-west-2.amazonaws.com/fse22-artifact-data/$filename" -O "data/$filename"
+    done <binary_filenames.txt
+fi
+
 # This form should run the entrypoint without overwriting the base entrypoint.
 docker run -it --rm --network dind-network \
     -e DOCKER_TLS_CERTDIR=/certs \
