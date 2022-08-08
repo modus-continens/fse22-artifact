@@ -41,9 +41,9 @@ function openjdkBuildImages() {
     MODUS_MEAN=$(grep real benchmarks/modus-time.log | datamash mean 2 -W)
     {
         echo "Approach,Mean (s),Mean including Templating (s)";
-        echo "DOBS Sequential,$DOBS_SEQUENTIAL_MEAN,$((DOBS_SEQUENTIAL_MEAN + MEAN_TEMPLATE))";
-        echo "DOBS Parallel,$DOBS_PARALLEL_MEAN,$((DOBS_PARALLEL_MEAN + MEAN_TEMPLATE))";
-        echo "Modus,$MODUS_MEAN,$((MODUS_MEAN + MEAN_TEMPLATE))";
+        echo "DOBS Sequential,$DOBS_SEQUENTIAL_MEAN,$(echo "$DOBS_SEQUENTIAL_MEAN" + "$MEAN_TEMPLATE" | bc)";
+        echo "DOBS Parallel,$DOBS_PARALLEL_MEAN,$(echo "$DOBS_PARALLEL_MEAN" + "$MEAN_TEMPLATE" | bc)";
+        echo "Modus,$MODUS_MEAN,$(echo "$MODUS_MEAN" + "$MEAN_TEMPLATE" | bc)";
     } > benchmarks/buildTime.csv
     cat benchmarks/buildTime.csv
 }
