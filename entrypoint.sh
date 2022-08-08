@@ -77,7 +77,7 @@ function dockerHubEval() {
 
     cd docker-hub-eval && ./run-all-and-log.sh "$NUM_RUNS" && cd ..
     echo 'Docker Hub Evaluation:'
-    cd docker-hub-eval && ./parse_runlog.py > ../benchmarks/docker-hub-eval-runlog.txt && cd ..
+    cd docker-hub-eval && ./parse_runlog.py > ../benchmarks/docker-hub-eval-runlog.txt && cp -r ./runlog ../benchmarks/docker-hub-eval-runlog && cd ..
     cat benchmarks/docker-hub-eval-runlog.txt
 }
 
