@@ -14,7 +14,7 @@ This is enabled using [Docker in Docker](https://hub.docker.com/_/docker).
 
 We have considered a balance between deviating from the original source (Zenodo submission) and getting a working artifact. 
 This consideration is necessary primarily because some of the links we used are no longer available.
-Therefore, we:
+Therefore, for the OpenJDK case study, we:
 - Serve some binaries locally (using nginx), and perform a search and replace on our source files to point to localhost where needed.
 - Remove checks that verify the `sha256sum` of binaries, since some binaries are no longer fetched from the original endpoint.
 

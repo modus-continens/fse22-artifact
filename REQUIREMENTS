@@ -1,5 +1,8 @@
 - Internet Connection, with a recommended bandwidth of at least 1 Gbps, to get similar results to the paper.
-- Bash
+- A GNU/Linux Operating System, running on x86_64
+  - A good option would be a VM like AWS' `c5.2xlarge`, but this is not necessary.
+- bash
 - wget
 - Docker Engine
-  - In addition, we assume sudoless docker is set up. https://docs.docker.com/engine/install/linux-postinstall/
+  - Furthermore, we assume sudoless docker is set up. https://docs.docker.com/engine/install/linux-postinstall/
+  - To verify this, you should be able to run `docker run hello-world`.

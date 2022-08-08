@@ -1,1 +1,9 @@
-TODO
+Install `bash` and `wget` using your operating system's package manager.
+
+To install Docker:
+- Follow the appropriate installation guide for Docker Engine based on your platform:
+  https://docs.docker.com/engine/install/#server
+- Follow the following guide to support running Docker as a non-root user.
+  https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user
+
+You should be able to run `docker run hello-world` if Docker is set up correctly.
