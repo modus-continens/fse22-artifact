@@ -26,6 +26,6 @@ WORKDIR /
 RUN git clone https://github.com/docker-library/openjdk.git ./docker-library-openjdk && cd docker-library-openjdk && git checkout b5df7f69163346b6813883cd68bd2f43f82fd784
 RUN git clone https://github.com/modus-continens/docker-hub-eval.git
 RUN curl https://raw.githubusercontent.com/docker-library/bashbrew/1da7341a79651d28fbcc3d14b9176593c4231942/scripts/jq-template.awk > docker-library-openjdk/jq-template.awk
-RUN curl https://gist.githubusercontent.com/thevirtuoso1973/399af39a3f3536d6be1ed2a2f124ee0a/raw/9ef67fd14d647a679f1a209537529eafbd262719/code_size.sh > code_size.sh && chmod +x code_size.sh
+RUN curl https://gist.githubusercontent.com/thevirtuoso1973/399af39a3f3536d6be1ed2a2f124ee0a/raw/5012652750d5feb393823d83f7ee37011f98ff06/code_size.sh > code_size.sh && chmod +x code_size.sh
 
 COPY ./entrypoint.sh ./entrypoint.sh
