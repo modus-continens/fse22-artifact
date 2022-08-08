@@ -8,16 +8,6 @@ function openjdkBuildImages() {
         NUM_RUNS=10
     fi
 
-    echo "First, computing mean template processing time:"
-    cd docker-library-openjdk
-    truncate -s 0 ../benchmarks/dobs-template-time.log
-    for ((i = 1; i <= 10; i++))
-    do
-        /usr/bin/time -o ../benchmarks/dobs-template-time.log -a -p ./apply-templates.sh
-    done
-    MEAN_TEMPLATE=$(grep real ../benchmarks/dobs-template-time.log | datamash mean 2 -W)
-    cd ..
-
     truncate -s 0 benchmarks/modus-time.log
     truncate -s 0 benchmarks/official.log
     truncate -s 0 benchmarks/official-parallel.log
@@ -34,6 +24,16 @@ function openjdkBuildImages() {
         docker builder prune -a -f && docker image prune -a -f;
         fd 'Dockerfile$' ./docker-library-openjdk | grep -v windows | /usr/bin/time -o benchmarks/official-parallel.log -a -p parallel --halt now,fail=1 --will-cite docker build ./docker-library-openjdk -f {};
     done
+
+    echo "Computing mean template processing time:"
+    cd docker-library-openjdk
+    truncate -s 0 ../benchmarks/dobs-template-time.log
+    for ((i = 1; i <= 10; i++))
+    do
+        /usr/bin/time -o ../benchmarks/dobs-template-time.log -a -p ./apply-templates.sh
+    done
+    MEAN_TEMPLATE=$(grep real ../benchmarks/dobs-template-time.log | datamash mean 2 -W)
+    cd ..
 
     truncate -s 0 benchmarks/buildTime.csv
     DOBS_SEQUENTIAL_MEAN=$(grep real benchmarks/official.log | datamash mean 2 -W)
