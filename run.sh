@@ -3,7 +3,7 @@
 # This script builds the Docker image that will be used to build the openjdk images.
 # It also sets up docker in docker with a local registry cache to avoid the rate limit.
 
-set -eux
+set -euxo pipefail
 
 docker build . -t openjdk-builder
 
