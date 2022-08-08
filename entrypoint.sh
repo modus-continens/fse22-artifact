@@ -32,7 +32,7 @@ function openjdkBuildImages() {
 
 
         docker builder prune -a -f && docker image prune -a -f;
-        fd 'Dockerfile$' ./docker-library-openjdk | grep -v windows | /usr/bin/time -o benchmarks/official-parallel.log -a -p parallel --will-cite docker build ./docker-library-openjdk -f {};
+        fd 'Dockerfile$' ./docker-library-openjdk | grep -v windows | /usr/bin/time -o benchmarks/official-parallel.log -a -p parallel --halt now,fail=1 --will-cite docker build ./docker-library-openjdk -f {};
     done
 
     truncate -s 0 benchmarks/buildTime.csv
