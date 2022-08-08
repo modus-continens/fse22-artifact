@@ -60,9 +60,7 @@ function dockerHubEval() {
         NUM_RUNS=10
     fi
 
-    if [[ "$BENCHMARK_CHOICE" == *'Docker Hub Evaluation'* ]]; then
-        cd docker-hub-eval && ./run-all-and-log.sh "$NUM_RUNS" && cd ..
-    fi
+    cd docker-hub-eval && ./run-all-and-log.sh "$NUM_RUNS" && cd ..
     echo 'Docker Hub Evaluation:'
     cd docker-hub-eval && ./parse_runlog.py > ../benchmarks/docker-hub-eval-runlog.txt && cd ..
     cat benchmarks/docker-hub-eval-runlog.txt
