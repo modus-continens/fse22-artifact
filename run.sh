@@ -32,7 +32,7 @@ mkdir -p ./benchmarks && chmod a+w ./benchmarks
 
 mkdir -p data
 # if fewer than needed binaries, then fetch them
-if [ "$(ls data -1 | wc -l)" -lt "$(wc -l binary_filenames.txt)" ]
+if [ "$(ls data -1 | wc -l)" -lt "$(wc -l < binary_filenames.txt)" ]
 then
     while read -r filename; do
         echo "$filename"
