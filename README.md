@@ -29,6 +29,8 @@ Below is an explanation of the main files in the artifact:
 - `cert.pem` and `key.pem`: Trusted SSL certificates (in the container image) that facilitate serving the binaries through Nginx.
 - `run.sh`: The main script that runs on the host machine; it builds and starts up the aforementioned container image.
 
+It is not necessary to understand the above to use the artifact, but would be useful if repurposing the artifact for future use.
+
 # Acquiring the Artifact
 
 You may acquire the artifact from GitHub. 
