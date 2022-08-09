@@ -4,7 +4,17 @@ TODO for submission:
 - LICENSE file
 - Copy of accepted paper
 
-# Modus Artifact - Overview
+# Overview of Modus
+
+Modus is a language for building Docker/OCI container images. Modus uses logic programming to express interactions among build parameters, specify complex build workflows, automatically parallelise and cache builds, help to reduce image size, and simplify maintenance. For more information, please follow these links:
+
+- [Modus website](https://modus-continens.com)
+- [Installation instructions](https://modus-continens.com/get.html)
+- [Documentation](https://docs.modus-continens.com)
+- [Playground](https://play.modus-continens.com)
+- [Discord community](https://discord.gg/bXxwfVE9Kj)
+
+# Overview of this Artifact
 
 Our artifact provides a Dockerfile used to build a container image with the relevant programs and data to build the images relevant to our case study, using Modus and Docker.
 This is enabled using [Docker in Docker](https://hub.docker.com/_/docker).

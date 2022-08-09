@@ -7,3 +7,6 @@ To install Docker:
   https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user
 
 You should be able to run `docker run hello-world` if Docker is set up correctly.
+
+This is sufficient to run our script, because Modus will run in a Docker container.
+Follow the steps under `Reproducing the Main Results` in the README.md to continue.
