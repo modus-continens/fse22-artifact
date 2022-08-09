@@ -1,9 +1,3 @@
-TODO for submission:
-- PDF abstract
-- STATUS file saying what badges applying for, and explaining why deserved.
-- LICENSE file
-- Copy of accepted paper
-
 # Modus Artifact - Overview
 
 Our artifact provides a Dockerfile used to build a container image with the relevant programs and data to build the images relevant to our case study, using Modus and Docker.
