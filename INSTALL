@@ -1,4 +1,4 @@
-Install `bash` and `wget` using your operating system's package manager.
+Install `bash`, `wget`, `curl` and `git` using your operating system's package manager.
 
 To install Docker:
 - Follow the appropriate installation guide for Docker Engine based on your platform:
