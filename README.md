@@ -49,6 +49,16 @@ First, select `OpenJDK - Build Images`, and enter `n = 10` runs. This may take a
 
 The results are stored in a `benchmarks/` directory, accessible after the container exits.
 
+For example:
+
+``` sh
+ubuntu@localhost:~/openjdk-artifact-evaluation$ cat benchmarks/buildTime.csv
+Approach,Mean (s),Mean including Templating (s)
+DOBS Sequential,427.274,525.123
+DOBS Parallel,95.828,193.677
+Modus,136.478,136.478
+```
+
 ## Side Effects
 
 The Docker commands executed by the script will have side effects, including deleting any unused `volumes`, creating new `volume`s, removing any containers named `dind-docker`. 

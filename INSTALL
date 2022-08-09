@@ -8,5 +8,6 @@ To install Docker:
 
 You should be able to run `docker run hello-world` if Docker is set up correctly.
 
-This is sufficient to run our script, because Modus will run in a Docker container.
+This is sufficient to run our script, because our Dockerfile will `cargo install modus` when building the image.
+This is why Docker in Docker is used: Modus is running in Docker and building Docker images in an isolated Docker environment.
 Follow the steps under `Reproducing the Main Results` in the README.md to continue.
