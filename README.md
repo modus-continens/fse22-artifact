@@ -21,6 +21,14 @@ Therefore, for the OpenJDK case study, we:
 
 Note that this will reduce the build time, because serving locally reduces the delay from fetching over the network.
 
+Below is an explanation of the main files in the artifact:
+- `binary_filenames.txt`: A list of binaries fetched from our S3 bucket and served locally, instead of the original URLs which are no longer accessible.
+- `Dockerfile`: Used to build a container image that contains Modus, the case study repositories, and other packages needed to generate the data.
+- `entrypoint.sh`: A script that runs inside the container image, allowing interactive selection of the desired result/data, before execution.
+- `nginx.conf`: An Nginx configuration used to serve binaries by routing based on the URL. We use this as an alternative to an extensive modification of the facts used in the original OpenJDK case study.
+- `cert.pem` and `key.pem`: Trusted SSL certificates (in the container image) that facilitate serving the binaries through Nginx.
+- `run.sh`: The main script that runs on the host machine; it builds and starts up the aforementioned container image.
+
 # Acquiring the Artifact
 
 You may acquire the artifact from GitHub. 
