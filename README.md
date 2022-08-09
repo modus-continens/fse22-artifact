@@ -47,7 +47,7 @@ This will set up Docker in Docker and execute an interactive script.
 First, select `OpenJDK - Build Images`, and enter `n = 10` runs. This may take about 2-3 hours.
 3. Select `Docker Hub Evaluation`, and enter `n = 10` runs. This may also take about 2-3 hours.
 
-The results are stored in a `benchmarks/` directory, accessible after the container exits.
+The results are both printed to the terminal and stored in a `benchmarks/` directory, accessible after the container exits.
 
 For example:
 
