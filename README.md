@@ -27,7 +27,7 @@ Simply `git clone https://github.com/modus-continens/fse22-artifact.git && cd fs
 
 The following command will have side effects, read [this](#side-effects) first.
 
-1. Assuming the [requirements](./REQUIREMENTS) are met and you're in the artifact repo's main directory, run the script with `./run.sh`.
+1. Assuming the [requirements](./REQUIREMENTS) are met, and you're in the artifact repo's main directory, run the script with `./run.sh`.
 This will set up Docker in Docker and execute an interactive script.
 2. The main results are the build times for building OpenJDK images, and the other Docker Hub images.
 First, select `OpenJDK - Build Images`, and enter `n = 10` runs. This may take about 2-3 hours.
@@ -52,3 +52,4 @@ Refer to Table 4 to understand the output format, it matches that of the `wc` co
 We use a slightly different version of the code repositories in this artifact, so the code size data differs.
 You should still be able to validate the claim that Modus uses far fewer words than DOBS.
 - The `Docker Hub Evaluation` choice will generate data similar to Table 3 of our paper.
+On a machine with similar network and hardware specifications as described in the [requirements](./REQUIREMENTS), you should be able to validate our claim that Modus builds these images with negligible overhead.

@@ -1,6 +1,7 @@
 - Internet Connection, with a recommended bandwidth of at least 1 Gbps, to get similar results to the paper.
 - A GNU/Linux Operating System, running on x86_64
-  - A good option would be a VM like AWS' `c5.2xlarge`, but this is not necessary.
+- (Optional) The system could have 8 CPUs, 16 GiB RAM, 10 Gbps bandwidth, and an SSD disk with 8000 IOPS.
+  - A good option would be a VM like AWS' `c5.2xlarge`.
 - bash
 - wget
 - curl
